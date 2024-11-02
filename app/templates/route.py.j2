@@ -1,0 +1,84 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Any, List, Dict, Optional
+from app.schemas.{{ model_name_lower }} import {{ model_name }}Create, {{ model_name }}Read
+from app.services.__generated__.{{ model_name_lower }}_service import {{ model_name }}Service
+from app.repositories.__generated__.{{ model_name_lower }}_repository import {{ model_name }}Repository
+from app.database import get_db
+from app.utils.response import create_response, ResponseModel
+
+router = APIRouter(prefix="/{{ model_name_lower }}", tags=["{{ model_name }}"])
+
+# 初始化服务函数
+def get_{{ model_name_lower }}_service(db: AsyncSession = Depends(get_db)) -> {{ model_name }}Service:
+    repository = {{ model_name }}Repository(db_session=db)
+    service = {{ model_name }}Service(repository=repository)
+    return service
+
+@router.post("/", response_model=ResponseModel[{{ model_name }}Read])
+async def create_{{ model_name_lower }}(
+    obj_in: {{ model_name }}Create,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.create(**obj_in.model_dump())
+    return create_response(data=data)
+
+@router.get("/{id}", response_model=ResponseModel[{{ model_name }}Read])
+async def get_{{ model_name_lower }}(
+    id: Any,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.get_by_id(id)
+    return create_response(data=data)
+
+@router.put("/{id}", response_model=ResponseModel[{{ model_name }}Read])
+async def update_{{ model_name_lower }}(
+    id: Any,
+    obj_in: {{ model_name }}Create,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.update(id, **obj_in.dict(exclude_unset=True))
+    return create_response(data=data)
+
+@router.delete("/{id}", response_model=ResponseModel[bool])
+async def delete_{{ model_name_lower }}(
+    id: Any,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    result = await service.delete(id)
+    return create_response(data=result)
+
+@router.get("/", response_model=ResponseModel[List[{{ model_name }}Read]])
+async def get_all_{{ model_name_lower }}(
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.get_all()
+    return create_response(data=data)
+
+@router.get("/paginated/", response_model=ResponseModel[List[{{ model_name }}Read]])
+async def get_all_paginated_{{ model_name_lower }}(
+    page: int = 1,
+    page_size: int = 10,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.get_all_paginated(page, page_size)
+    return create_response(data=data)
+
+@router.post("/search/", response_model=ResponseModel[List[{{ model_name }}Read]])
+async def search_{{ model_name_lower }}(
+    conditions: Dict[str, Any],
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.select_by_condition(conditions)
+    return create_response(data=data)
+
+@router.post("/search/paginated/", response_model=ResponseModel[List[{{ model_name }}Read]])
+async def search_paginated_{{ model_name_lower }}(
+    conditions: Dict[str, Any],
+    page: int = 1,
+    page_size: int = 10,
+    order_by: Optional[Any] = None,
+    service: {{ model_name }}Service = Depends(get_{{ model_name_lower }}_service)
+):
+    data = await service.select_by_condition_paginated(conditions, page, page_size, order_by)
+    return create_response(data=data)

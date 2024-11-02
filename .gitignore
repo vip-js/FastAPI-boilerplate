@@ -1,0 +1,63 @@
+# 忽略 Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 忽略虚拟环境目录
+env/
+venv/
+.venv/
+
+# 如果使用 poetry
+.poetry/
+
+# 如果使用 pipenv
+Pipfile
+Pipfile.lock
+
+# Python 环境文件
+.python-version
+
+# VSCode 编辑器配置
+.vscode/
+
+# PyCharm 项目文件
+.idea/
+
+# Jupyter Notebook 检查点
+.ipynb_checkpoints/
+
+# 忽略日志文件
+logs
+*.log
+
+# 忽略临时文件
+*.tmp
+*.swp
+*.swo
+*.swn
+
+# 如果使用 Docker
+docker-compose.yml
+Dockerfile
+.env
+
+# 忽略测试和覆盖率文件
+htmlcov/
+.tox/
+.coverage
+coverage.xml
+.cache
+nosetests.xml
+coverage/
+
+# 忽略 FastAPI 自动生成的目录内容
+/static/*
+
+# 忽略数据库
+*.sqlite3
+*.db
+*.sql
+
+# 忽略自动生成代码
+__generated__
