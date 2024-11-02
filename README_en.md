@@ -148,9 +148,9 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 ```
 
-### 初始化数据库
+### Initialize Database
 
-Initialize Database：
+Run the database initialization script:
 
 ```
 bash
@@ -172,7 +172,7 @@ The app will run at `http://127.0.0.1:8000`。
 
 ### Adding a New Model
 
-1. **编写模型**
+1. **Create a Model**
 
    Create a new model file in the `app/models/` directory, e.g., `product.py`:
 
@@ -221,7 +221,7 @@ The app will run at `http://127.0.0.1:8000`。
 
 3. **Restart the Application**
 
-   重启应用，框架将自动生成仓储、服务和路由代码。
+   Restart the application, and the framework will automatically generate the repository, service, and route code.
 
 ### Writing Business Logic
 
