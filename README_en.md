@@ -110,8 +110,8 @@ cd FastAPI-boilerplate
 bash
 
 python3 -m venv venv
-source venv/bin/activate  # 对于Linux/Mac
-venv\Scripts\activate     # 对于Windows
+source venv/bin/activate  # On Linux/Mac
+venv\Scripts\activate     # On Windows
 ```
 
 ### Install Dependencies
